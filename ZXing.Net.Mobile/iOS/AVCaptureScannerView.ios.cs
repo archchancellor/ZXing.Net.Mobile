@@ -154,6 +154,7 @@ namespace ZXing.Mobile
 				if (!string.IsNullOrEmpty(preset))
 					session.SessionPreset = preset;
 			}
+			var zoomFactor = ScanningOptions.GetZoom((float)captureDevice.MinAvailableVideoZoomFactor, (float)captureDevice.MaxAvailableVideoZoomFactor, null);
 
 			var input = AVCaptureDeviceInput.FromDevice(captureDevice);
 			if (input == null)
@@ -292,6 +293,9 @@ namespace ZXing.Mobile
 
 					if (captureDevice.ExposurePointOfInterestSupported)
 						captureDevice.ExposurePointOfInterest = new CGPoint(0.5f, 0.5f);
+
+					if (zoomFactor != null)
+						captureDevice.VideoZoomFactor = zoomFactor.Value;
 
 					captureDevice.UnlockForConfiguration();
 				}

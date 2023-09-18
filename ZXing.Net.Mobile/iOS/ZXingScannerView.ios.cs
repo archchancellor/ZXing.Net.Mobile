@@ -227,6 +227,8 @@ namespace ZXing.Mobile
 				WeakVideoSettings = videoSettings
 			};
 
+			var zoomFactor = ScanningOptions.GetZoom((float)captureDevice.MinAvailableVideoZoomFactor, (float)captureDevice.MaxAvailableVideoZoomFactor, null);
+
 			// configure the output
 			queue = new DispatchQueue("ZxingScannerView"); // (Guid.NewGuid().ToString());
 
@@ -324,6 +326,9 @@ namespace ZXing.Mobile
 
 				if (captureDevice.ExposurePointOfInterestSupported)
 					captureDevice.ExposurePointOfInterest = new PointF(0.5f, 0.5f);
+
+				if (zoomFactor != null)
+					captureDevice.VideoZoomFactor = zoomFactor.Value;
 
 				captureDevice.UnlockForConfiguration();
 			}

@@ -12,6 +12,7 @@ namespace ZXing.Mobile
 		/// Camera resolution selector delegate, must return the selected Resolution from the list of available resolutions
 		/// </summary>
 		public delegate CameraResolution CameraResolutionSelectorDelegate(List<CameraResolution> availableResolutions);
+		public delegate float CameraZoomSelectorDelegate(float minZoom, float maxZoom, int[] zoomRatios);
 
 		public MobileBarcodeScanningOptions()
 		{
@@ -24,6 +25,7 @@ namespace ZXing.Mobile
 		}
 
 		public CameraResolutionSelectorDelegate CameraResolutionSelector { get; set; }
+		public CameraZoomSelectorDelegate CameraZoomSelector { get; set; }
 
 		public IEnumerable<BarcodeFormat> PossibleFormats { get; set; }
 
@@ -117,5 +119,16 @@ namespace ZXing.Mobile
 
 			return r;
 		}
+
+		public float? GetZoom(float minZoom, float maxZoom, int[] zoomRatios)
+		{
+			var dg = CameraZoomSelector;
+
+			if (dg != null)
+				return dg(minZoom, maxZoom, zoomRatios);
+
+			return null;
+		}
+
 	}
 }

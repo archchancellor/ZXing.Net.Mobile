@@ -284,6 +284,10 @@ namespace ZXing.Mobile.CameraAccess
 					}
 				}
 			}
+			
+			var zoom = scannerHost.ScanningOptions.GetZoom(0, parameters.MaxZoom, parameters.ZoomRatios.Select(i => Convert.ToInt32(i)).ToArray());
+			if (zoom != null)
+				parameters.Zoom = Convert.ToInt32(zoom.Value);
 
 			// Google Glass requires this fix to display the camera output correctly
 			if (Build.Model.Contains("Glass"))
